@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "nama": "Panel pterodactyl Unlimited",
+    "harga": "Rp5.000",
+    "kategori": "Hosting"
+  },
+  {
+    "id": 2,
+    "nama": "Admin Panel pterodactyl",
+    "harga": "Rp10.000",
+    "kategori": "Hosting"
+  },
+  {
+    "id": 5,
+    "nama": "SC CREATE PANEL PTERODACTYL WEBSITE",
+    "harga": "Rp15.000",
+    "kategori": "VIA WHM"
+  },
+  {
+    "id": 6,
+    "nama": "SC CREATE PANEL JASTEB TAMPILAN 4",
+    "harga": "Rp25.000",
+    "kategori": "VIA WHM"
+  },
+  {
+    "id": 7,
+    "nama": "SC CREATE PANEL JASTEB",
+    "harga": "Rp10.000",
+    "kategori": "VIA WHM"
+  },
+  {
+    "id": 8,
+    "nama": "SC AUTO RESS TAMPILAN 4",
+    "harga": "Rp30.000",
+    "kategori": "VIA WHM"
+  },
+  {
+    "id": 9,
+    "nama": "SC ADDCURL HAPUS API",
+    "harga": "Rp15.000",
+    "kategori": "VIA WHM"
+  },
+  {
+    "id": 10,
+    "nama": "SC ADDCURL BIASA",
+    "harga": "Rp10.000",
+    "kategori": "VIA WHM"
+  },
+  {
+    "id": 11,
+    "nama": "SC SUBDOMAIN",
+    "harga": "Rp20.000",
+    "kategori": "VIA WHM"
+  },
+  {
+    "id": 12,
+    "nama": "SC SHOP PAYMENT OTOMATIS",
+    "harga": "Rp35.000",
+    "kategori": "VIA WHM"
+  },
+  {
+    "id": 13,
+    "nama": "SC SHOP AUTO KE WHATSAPP",
+    "harga": "Rp25.000",
+    "kategori": "VIA WHM"
+  },
+  {
+    "id": 14,
+    "nama": "SC PAYMENT AJAIB GATEWAY",
+    "harga": "Rp35.000",
+    "kategori": "VIA WHM"
+  },
+  {
+    "id": 15,
+    "nama": "SC QRIS ALL PAYMENT",
+    "harga": "Rp10.000",
+    "kategori": "VIA WHM"
+  },
+  {
+    "id": 16,
+    "nama": "SC BUY JASTEB OTOMATIS",
+    "harga": "Rp20.000",
+    "kategori": "VIA WHM"
+  },
+  {
+    "id": 17,
+    "nama": "SC PUSAT JS",
+    "harga": "Rp35.000",
+    "kategori": "VIA WHM"
+  }
+]
