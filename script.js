@@ -1,999 +1,957 @@
-        // Data produk
-        let products = JSON.parse(localStorage.getItem('products')) || [
+// Data produk
+let products = JSON.parse(localStorage.getItem('products')) || [
+    {
+        id: 1,
+        name: "SCRIPT CREATE PANEL JASTEB",
+        category: "scriptbot",
+        price: 10000,
+        qris: "https://files.catbox.moe/jibvsz.jpg",
+        features: ["Bisa Create sepuasnya", "Bisa Open Jasteb", "Open Marga", "Bisa Open Founder" "Bisa Open Team Ress", "Bisa di Jual Kembali","Dll"],
+        highlight: "",
+        files: [
             {
-                id: 1,
-                name: "MURBUG VIA TELE",
-                category: "scriptbot",
-                price: 10000,
-                qris: "https://files.catbox.moe/jibvsz.jpg",
-                features: ["Akses via Telegram", "Proses cepat dan aman", "Support 24 jam", "Garansi 30 hari"],
-                highlight: "",
-                files: [
-                    {
-                        name: "Murbug-Telegram-Premium.zip",
-                        size: 18500, // 18.5 KB
-                        type: "application/zip"
-                    }
-                ]
-            },
+                name: "Murbug-Telegram-Premium.zip",
+                size: 18500, // 18.5 KB
+                type: "application/zip"
+            }
+        ]
+    },
+    {
+        id: 2,
+        name: "SC CREATE PANEL JASTEB 4 TAMPILAN",
+        category: "script",
+        price: 30000,
+        qris: "https://files.catbox.moe/jibvsz.jpg",
+        features: ["Bisa Create Panel 4 Tampilan", "Tampilan webp", "tampilan Atur Ress", "Tampilan Atur Menit", "Bisa Open Marga", "Dll"],
+        highlight: "POPULAR",
+        files: [
             {
-                id: 2,
-                name: "SC REXUS",
-                category: "script",
-                price: 50000,
-                qris: "https://files.catbox.moe/jibvsz.jpg",
-                features: ["Screen Capture berkualitas", "Tanpa watermark", "Resolusi tinggi", "Proses instan"],
-                highlight: "POPULAR",
-                files: [
-                    {
-                        name: "SC-REXUS-Premium.zip",
-                        size: 24500, // 24.5 KB
-                        type: "application/zip"
-                    }
-                ]
-            },
+                name: "SC-REXUS-Premium.zip",
+                size: 24500, // 24.5 KB
+                type: "application/zip"
+            }
+        ]
+    },
+    {
+        id: 3,
+        name: "SCRIPT CREATE PANEL WEBP 3 TAMPILAN",
+        category: "scriptbot",
+        price: 28000,
+        qris: "https://files.catbox.moe/jibvsz.jpg",
+        features: ["Bisa Create Panel 3 Tampilan", "bisa create sepuasnya", "tampilan Atur Ress", "Tampilan Atur Menit", "Bisa Open Marga", "Dll"],
+        highlight: "",
+        files: [
             {
-                id: 3,
-                name: "RESELLER PANEL",
-                category: "scriptbot",
-                price: 8000,
-                qris: "https://files.catbox.moe/jibvsz.jpg",
-                features: ["Akses panel reseller", "Harga khusus", "Fitur lengkap", "Dashboard modern"],
-                highlight: "",
-                files: [
-                    {
-                        name: "Reseller-Panel-Access.zip",
-                        size: 15800, // 15.8 KB
-                        type: "application/zip"
-                    }
-                ]
+                name: "Reseller-Panel-Access.zip",
+                size: 15800, // 15.8 KB
+                type: "application/zip"
             }
-        ];
-
-        // Data pengguna
-        let users = JSON.parse(localStorage.getItem('users')) || [
-            {
-                id: 1,
-                name: "RamzzNotDev",
-                username: "ramzz",
-                email: "admin@digitalshop.com",
-                password: "ramzz1",
-                isAdmin: true
-            },
-            {
-                id: 2,
-                name: "User Demo",
-                username: "demo",
-                email: "user@demo.com",
-                password: "demo123",
-                isAdmin: false
-            }
-        ];
-
-        // Data pesanan
-        let orders = JSON.parse(localStorage.getItem('orders')) || [];
-
-        // Data file
-        let productFiles = JSON.parse(localStorage.getItem('productFiles')) || {};
-
-        // Status aplikasi
-        let currentOrder = null;
-        let currentTheme = localStorage.getItem('theme') || 'dark';
-        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
-        let editingProductId = null;
-        let selectedProductId = null;
-        let selectedFile = null;
-        let paymentProofFile = null;
-        let currentProofOrder = null;
-
-        // Elemen DOM
-        const mainContent = document.querySelector('main');
-        const productGrid = document.getElementById('product-grid');
-        const modal = document.getElementById('payment-modal');
-        const proofModal = document.getElementById('proof-modal');
-        const loginContainer = document.getElementById('login-container');
-        const registerContainer = document.getElementById('register-container');
-        const productModal = document.getElementById('product-modal');
-        const downloadModal = document.getElementById('download-modal');
-        const notification = document.getElementById('notification');
-        const themeToggle = document.getElementById('theme-toggle');
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.querySelector('.nav-menu');
-        const authButtons = document.getElementById('auth-buttons');
-        const userNav = document.getElementById('user-nav');
-        const navDashboardBtn = document.getElementById('nav-dashboard-btn');
-        const navLogoutBtn = document.getElementById('nav-logout-btn');
-        const dashboard = document.getElementById('dashboard');
-        const dashboardBack = document.getElementById('dashboard-back');
-        const dashboardTitle = document.getElementById('dashboard-title');
-        const dashboardStats = document.getElementById('dashboard-stats');
-        const dashboardContentTitle = document.getElementById('dashboard-content-title');
-        const orderList = document.getElementById('order-list');
-        const adminOrdersSection = document.getElementById('admin-orders-section');
-        const adminOrderList = document.getElementById('admin-order-list');
-        const fileManagementSection = document.getElementById('file-management-section');
-        const userManagementSection = document.getElementById('user-management-section');
-        const productManagementSection = document.getElementById('product-management-section');
-        const userTableContainer = document.getElementById('user-table-container');
-        const productTableContainer = document.getElementById('product-table-container');
-        const productFileList = document.getElementById('product-file-list');
-        const fileProductSelect = document.getElementById('file-product');
-        const addProductBtn = document.getElementById('add-product-btn');
-        const uploadProgress = document.getElementById('upload-progress');
-        const progressFill = document.getElementById('progress-fill');
-        const progressText = document.getElementById('progress-text');
-        
-        // Inisialisasi
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set tema
-            document.documentElement.setAttribute('data-theme', currentTheme);
-            
-            // Simpan data ke localStorage jika belum ada
-            if (!localStorage.getItem('products')) {
-                localStorage.setItem('products', JSON.stringify(products));
-            }
-            if (!localStorage.getItem('users')) {
-                localStorage.setItem('users', JSON.stringify(users));
-            }
-            if (!localStorage.getItem('orders')) {
-                localStorage.setItem('orders', JSON.stringify(orders));
-            }
-            if (!localStorage.getItem('productFiles')) {
-                localStorage.setItem('productFiles', JSON.stringify(productFiles));
-            }
-            
-            // Render produk di halaman utama
-            renderProducts();
-            
-            // Setup event listeners
-            setupEventListeners();
-            
-            // Periksa status login
-            checkLoginStatus();
-        });
-
-        // Fungsi untuk merender produk di halaman utama
-        function renderProducts() {
-            productGrid.innerHTML = '';
-            
-            products.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                productCard.setAttribute('data-category', product.category);
-                productCard.setAttribute('data-name', product.name.toLowerCase());
-                
-                let highlightHtml = '';
-                if (product.highlight) {
-                    highlightHtml = `<span class="highlight">${product.highlight}</span>`;
-                }
-                
-                let featuresHtml = '';
-                product.features.forEach(feature => {
-                    featuresHtml += `<li><i class="fas fa-check-circle"></i> ${feature}</li>`;
-                });
-                
-                // Cek apakah user sudah login untuk mengaktifkan tombol order
-                const isLoggedIn = currentUser !== null;
-                const buttonHtml = isLoggedIn ? 
-                    `<button class="order-button" data-id="${product.id}" data-product="${product.name}" data-price="${product.price}" data-qris="${product.qris}">
-                        <i class="fas fa-shopping-cart"></i> Beli Sekarang
-                    </button>` :
-                    `<button class="order-button" onclick="showLoginModal()"><i class="fas fa-lock"></i> Login untuk Membeli</button>`;
-                
-                productCard.innerHTML = `
-                    ${highlightHtml}
-                <div class="product-header">
-                    <h3>${product.name}</h3>
-                    <div class="product-price">Rp ${product.price.toLocaleString('id-ID')}</div>
-                </div>
-                <div class="product-body">
-                    <ul class="product-features">
-                        ${featuresHtml}
-                    </ul>
-                </div>
-                <div class="product-footer">
-                    ${buttonHtml}
-                </div>
-            `;
-            
-            productGrid.appendChild(productCard);
-        });
-        
-        // Setup event listeners untuk tombol order
-        setupOrderButtons();
-        
-        // Setup event listeners untuk kategori
-        setupCategoryButtons();
+        ]
     }
+    {
+        id: 3,
+        name: "SCRIPT ADDCURL",
+        category: "scriptbot",
+        price: 10000,
+        qris: "https://files.catbox.moe/jibvsz.jpg",
+        features: ["Script ini khusus konek ke Webp", "Bisa Jual Kembali", "Bisa Open Jasteb", "Bisa Jual Ress", "Bisa Open Marga", "Dll"],
+        highlight: "",
+        files: [
+            {
+                name: "Reseller-Panel-Access.zip",
+                size: 15800, // 15.8 KB
+                type: "application/zip"
+            }
+        ]
+    }
+    {
+        id: 3,
+        name: "SCRIPT ADDCURL HAPUS APII",
+        category: "scriptbot",
+        price: 20000,
+        qris: "https://files.catbox.moe/jibvsz.jpg",
+        features: ["Script ini sama seperti di atas", "Jika kalian Tidak Senang Sama Buyer panel kalian bisa di hapus api", "Bisa Open Jasteb", "Bisa Jual Ress", "Bisa Open Marga", "Dll"],
+        highlight: "",
+        files: [
+            {
+                name: "Reseller-Panel-Access.zip",
+                size: 2000, // 15.8 KB
+                type: "application/zip"
+            }
+        ]
+    }
+    {
+        id: 3,
+        name: "SCRIPT ADDCURLXAUTORESS",
+        category: "script",
+        price: 15000,
+        qris: "https://files.catbox.moe/jibvsz.jpg",
+        features: ["Script Ini bisa langsung konekin untuk nebar ress", "Bisa Tap Tap Ress Jika Kalian tidak mau Nebar", "Script ini Spesial", "Script Ini Bisa Di Jual Kembali", "Bisa Open Marga", "Dll"],
+        highlight: "",
+        files: [
+            {
+                name: "Reseller-Panel-Access.zip",
+                size: 15800, // 15.8 KB
+                type: "application/zip"
+            }
+        ]
+    }
+];
 
-    // Fungsi untuk setup event listeners
-    function setupEventListeners() {
-        // Toggle menu hamburger
+// Data pengguna
+let users = JSON.parse(localStorage.getItem('users')) || [
+    {
+        id: 1,
+        name: "RamzzNotDev",
+        username: "ramzz",
+        email: "admin@digitalshop.com",
+        password: "ramzz1",
+        isAdmin: true
+    },
+    {
+        id: 2,
+        name: "User Demo",
+        username: "demo",
+        email: "user@demo.com",
+        password: "demo123",
+        isAdmin: false
+    }
+];
+
+// Data pesanan
+let orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+// Data file
+let productFiles = JSON.parse(localStorage.getItem('productFiles')) || {};
+
+// Status aplikasi
+let currentOrder = null;
+let currentTheme = localStorage.getItem('theme') || 'dark';
+let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+let editingProductId = null;
+let selectedProductId = null;
+let selectedFile = null;
+let paymentProofFile = null;
+let currentProofOrder = null;
+
+// Inisialisasi
+document.addEventListener('DOMContentLoaded', function() {
+    // Set tema
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    
+    // Simpan data ke localStorage jika belum ada
+    if (!localStorage.getItem('products')) {
+        localStorage.setItem('products', JSON.stringify(products));
+    }
+    if (!localStorage.getItem('users')) {
+        localStorage.setItem('users', JSON.stringify(users));
+    }
+    if (!localStorage.getItem('orders')) {
+        localStorage.setItem('orders', JSON.stringify(orders));
+    }
+    if (!localStorage.getItem('productFiles')) {
+        localStorage.setItem('productFiles', JSON.stringify(productFiles));
+    }
+    
+    // Render produk di halaman utama
+    if (document.getElementById('product-grid')) {
+        renderProducts();
+    }
+    
+    // Setup event listeners
+    setupEventListeners();
+    
+    // Periksa status login
+    checkLoginStatus();
+    
+    // Jika di halaman dashboard, render dashboard
+    if (window.location.pathname.includes('dashboard.html')) {
+        renderDashboard();
+    }
+});
+
+// Fungsi untuk merender produk di halaman utama
+function renderProducts() {
+    const productGrid = document.getElementById('product-grid');
+    if (!productGrid) return;
+    
+    productGrid.innerHTML = '';
+    
+    products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.setAttribute('data-category', product.category);
+        productCard.setAttribute('data-name', product.name.toLowerCase());
+        
+        let highlightHtml = '';
+        if (product.highlight) {
+            highlightHtml = `<span class="highlight">${product.highlight}</span>`;
+        }
+        
+        let featuresHtml = '';
+        product.features.forEach(feature => {
+            featuresHtml += `<li><i class="fas fa-check-circle"></i> ${feature}</li>`;
+        });
+        
+        // Cek apakah user sudah login untuk mengaktifkan tombol order
+        const isLoggedIn = currentUser !== null;
+        const buttonHtml = isLoggedIn ? 
+            `<button class="order-button" data-id="${product.id}" data-product="${product.name}" data-price="${product.price}" data-qris="${product.qris}">
+                <i class="fas fa-shopping-cart"></i> Beli Sekarang
+            </button>` :
+            `<button class="order-button" onclick="showLoginModal()"><i class="fas fa-lock"></i> Login untuk Membeli</button>`;
+        
+        productCard.innerHTML = `
+            ${highlightHtml}
+            <div class="product-header">
+                <h3>${product.name}</h3>
+                <div class="product-price">Rp ${product.price.toLocaleString('id-ID')}</div>
+            </div>
+            <div class="product-body">
+                <ul class="product-features">
+                    ${featuresHtml}
+                </ul>
+            </div>
+            <div class="product-footer">
+                ${buttonHtml}
+            </div>
+        `;
+        
+        productGrid.appendChild(productCard);
+    });
+    
+    // Setup event listeners untuk tombol order
+    setupOrderButtons();
+    
+    // Setup event listeners untuk kategori
+    setupCategoryButtons();
+}
+
+// Fungsi untuk setup event listeners
+function setupEventListeners() {
+    // Toggle menu hamburger
+    const hamburger = document.getElementById('hamburger');
+    if (hamburger) {
         hamburger.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-            hamburger.classList.toggle('active');
+            const navMenu = document.querySelector('.nav-menu');
+            if (navMenu) {
+                navMenu.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            }
         });
-        
-        // Tombol login di menu
-        document.getElementById('login-btn').addEventListener('click', function(e) {
+    }
+    
+    // Tombol login di menu
+    const loginBtn = document.getElementById('login-btn');
+    if (loginBtn) {
+        loginBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            showModal(loginContainer);
+            window.location.href = 'login.html';
         });
-        
-        // Tombol daftar di menu
-        document.getElementById('register-btn').addEventListener('click', function(e) {
+    }
+    
+    // Tombol daftar di menu
+    const registerBtn = document.getElementById('register-btn');
+    if (registerBtn) {
+        registerBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            showModal(registerContainer);
+            window.location.href = 'register.html';
         });
-        
-        // Tombol dashboard di navigasi
-        navDashboardBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            showDashboard();
-        });
-        
-        // Tombol kembali dari dashboard
-        dashboardBack.addEventListener('click', function(e) {
-            e.preventDefault();
-            hideDashboard();
-        });
-        
-        // Tombol logout di navigasi
+    }
+    
+    // Tombol logout di navigasi
+    const navLogoutBtn = document.getElementById('nav-logout-btn');
+    if (navLogoutBtn) {
         navLogoutBtn.addEventListener('click', function(e) {
             e.preventDefault();
             logoutUser();
         });
-        
-        // Tombol tutup modal login
-        document.getElementById('close-login').addEventListener('click', function() {
-            hideModal(loginContainer);
-        });
-        
-        // Tombol tutup modal register
-        document.getElementById('close-register').addEventListener('click', function() {
-            hideModal(registerContainer);
-        });
-        
-        // Tombol tutup modal produk
-        document.getElementById('close-product-modal').addEventListener('click', function() {
-            hideModal(productModal);
-            resetProductForm();
-        });
-        
-        // Tombol batal modal produk
-        document.getElementById('cancel-product').addEventListener('click', function() {
-            hideModal(productModal);
-            resetProductForm();
-        });
-        
-        // Tombol tutup modal download
-        document.getElementById('close-download-modal').addEventListener('click', function() {
-            hideModal(downloadModal);
-        });
-        
-        // Tombol tutup modal download
-        document.getElementById('close-download').addEventListener('click', function() {
-            hideModal(downloadModal);
-        });
-        
-        // Tombol tutup modal bukti
-        document.querySelectorAll('.close-modal').forEach(btn => {
-            btn.addEventListener('click', function() {
-                if (proofModal.style.display === 'flex') {
-                    hideModal(proofModal);
-                }
-            });
-        });
-        
-        // Tombol setujui pembayaran
-        document.getElementById('approve-payment').addEventListener('click', function() {
-            approvePayment();
-        });
-        
-        // Tombol tolak pembayaran
-        document.getElementById('reject-payment').addEventListener('click', function() {
-            rejectPayment();
-        });
-        
-        // Navigasi antara modal login dan register
-        document.getElementById('goto-register').addEventListener('click', function(e) {
-            e.preventDefault();
-            hideModal(loginContainer);
-            showModal(registerContainer);
-        });
-        
-        document.getElementById('goto-login').addEventListener('click', function(e) {
-            e.preventDefault();
-            hideModal(registerContainer);
-            showModal(loginContainer);
-        });
-        
-        // Submit login
-        document.getElementById('login-submit-btn').addEventListener('click', function() {
+    }
+    
+    // Submit login
+    const loginSubmitBtn = document.getElementById('login-submit-btn');
+    if (loginSubmitBtn) {
+        loginSubmitBtn.addEventListener('click', function() {
             loginUser();
         });
-        
-        // Submit register
-        document.getElementById('register-submit-btn').addEventListener('click', function() {
+    }
+    
+    // Submit register
+    const registerSubmitBtn = document.getElementById('register-submit-btn');
+    if (registerSubmitBtn) {
+        registerSubmitBtn.addEventListener('click', function() {
             registerUser();
         });
-        
-        // Submit produk
-        document.getElementById('save-product').addEventListener('click', function() {
-            saveProduct();
-        });
-        
-        // Tombol tambah produk
-        addProductBtn.addEventListener('click', function() {
-            editingProductId = null;
-            document.getElementById('product-modal-title').textContent = 'Tambah Produk';
-            showModal(productModal);
-        });
-        
-        // Upload file produk
-        document.getElementById('upload-file-btn').addEventListener('click', function() {
-            uploadProductFile();
-        });
-        
-        // Pilih produk untuk file upload
-        fileProductSelect.addEventListener('change', function() {
-            selectedProductId = this.value;
-            renderProductFiles();
-        });
-        
-        // Upload file gambar produk
-        document.getElementById('product-image-upload').addEventListener('change', function(e) {
-            if (e.target.files.length > 0) {
-                const fileName = e.target.files[0].name;
-                document.getElementById('uploaded-file-name').textContent = fileName;
-                document.getElementById('uploaded-file-container').style.display = 'block';
-            }
-        });
-        
-        // Upload file produk
-        document.getElementById('product-file-upload').addEventListener('change', function(e) {
-            if (e.target.files.length > 0) {
-                const fileName = e.target.files[0].name;
-                document.getElementById('uploaded-product-file-name').textContent = fileName;
-                document.getElementById('uploaded-product-file-container').style.display = 'block';
-                selectedFile = e.target.files[0];
-            }
-        });
-        
-        // Upload bukti pembayaran
-        document.getElementById('payment-proof').addEventListener('change', function(e) {
-            if (e.target.files.length > 0) {
-                paymentProofFile = e.target.files[0];
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    document.getElementById('proof-preview').src = event.target.result;
-                    document.getElementById('proof-preview').style.display = 'block';
-                };
-                reader.readAsDataURL(paymentProofFile);
-            }
-        });
-        
-        // Hapus file gambar yang diupload
-        document.getElementById('remove-file').addEventListener('click', function() {
-            document.getElementById('product-image-upload').value = '';
-            document.getElementById('uploaded-file-container').style.display = 'none';
-        });
-        
-        // Hapus file produk yang diupload
-        document.getElementById('remove-product-file').addEventListener('click', function() {
-            document.getElementById('product-file-upload').value = '';
-            document.getElementById('uploaded-product-file-container').style.display = 'none';
-            selectedFile = null;
-        });
-        
-        // Tombol tutup modal
-        document.querySelector('.close-modal').addEventListener('click', closePaymentModal);
-        
-        // Tombol batalkan pembayaran
-        document.getElementById('cancel-payment').addEventListener('click', closePaymentModal);
-        
-        // Tombol konfirmasi pembayaran
-        document.getElementById('confirm-payment').addEventListener('click', confirmPayment);
-        
-        // Pencarian produk
-        document.getElementById('search-button').addEventListener('click', searchProducts);
-        document.getElementById('search-input').addEventListener('keyup', function(e) {
+    }
+    
+    // Tombol tutup modal
+    const closeModalBtn = document.querySelector('.close-modal');
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', closePaymentModal);
+    }
+    
+    // Tombol batalkan pembayaran
+    const cancelPaymentBtn = document.getElementById('cancel-payment');
+    if (cancelPaymentBtn) {
+        cancelPaymentBtn.addEventListener('click', closePaymentModal);
+    }
+    
+    // Tombol konfirmasi pembayaran
+    const confirmPaymentBtn = document.getElementById('confirm-payment');
+    if (confirmPaymentBtn) {
+        confirmPaymentBtn.addEventListener('click', confirmPayment);
+    }
+    
+    // Pencarian produk
+    const searchButton = document.getElementById('search-button');
+    if (searchButton) {
+        searchButton.addEventListener('click', searchProducts);
+    }
+    
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function(e) {
             if (e.key === 'Enter') {
                 searchProducts();
             }
         });
-        
-        // Toggle tema
+    }
+    
+    // Toggle tema
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
         themeToggle.addEventListener('click', toggleTheme);
+    }
+    
+    // Klik di luar modal untuk menutup
+    window.addEventListener('click', function(e) {
+        const modal = document.getElementById('payment-modal');
+        if (modal && e.target === modal) {
+            closePaymentModal();
+        }
         
-        // Klik di luar modal untuk menutup
-        window.addEventListener('click', function(e) {
-            if (e.target === loginContainer) {
-                hideModal(loginContainer);
-            }
-            
-            if (e.target === registerContainer) {
-                hideModal(registerContainer);
-            }
-            
-            if (e.target === modal) {
-                closePaymentModal();
-            }
-            
-            if (e.target === proofModal) {
-                hideModal(proofModal);
-            }
-            
-            if (e.target === productModal) {
-                hideModal(productModal);
-                resetProductForm();
-            }
-            
-            if (e.target === downloadModal) {
-                hideModal(downloadModal);
-            }
-            
-            // Tutup menu hamburger jika diklik di luarnya
-            if (e.target !== hamburger && !hamburger.contains(e.target) && e.target !== navMenu && !navMenu.contains(e.target)) {
+        // Tutup menu hamburger jika diklik di luarnya
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        if (hamburger && navMenu && e.target !== hamburger && !hamburger.contains(e.target) && e.target !== navMenu && !navMenu.contains(e.target)) {
+            navMenu.classList.remove('active');
+            hamburger.classList.remove('active');
+        }
+    });
+    
+    // Tutup menu hamburger saat item menu diklik
+    document.querySelectorAll('.nav-link').forEach(item => {
+        item.addEventListener('click', function() {
+            const navMenu = document.querySelector('.nav-menu');
+            const hamburger = document.getElementById('hamburger');
+            if (navMenu && hamburger) {
                 navMenu.classList.remove('active');
                 hamburger.classList.remove('active');
             }
         });
-        
-        // Tutup menu hamburger saat item menu diklik
-        document.querySelectorAll('.nav-link').forEach(item => {
-            item.addEventListener('click', function() {
-                navMenu.classList.remove('active');
-                hamburger.classList.remove('active');
+    });
+}
+
+// Fungsi untuk setup tombol kategori
+function setupCategoryButtons() {
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const category = this.getAttribute('data-category');
+            
+            // Update tampilan tombol kategori
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            this.classList.add('active');
+            
+            // Filter produk
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
             });
         });
-    }
+    });
+}
 
-    // Fungsi untuk setup tombol kategori
-    function setupCategoryButtons() {
-        const categoryButtons = document.querySelectorAll('.category-btn');
-        
-        categoryButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const category = this.getAttribute('data-category');
-                
-                // Update tampilan tombol kategori
-                document.querySelectorAll('.category-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                this.classList.add('active');
-                
-                // Filter produk
-                const productCards = document.querySelectorAll('.product-card');
-                productCards.forEach(card => {
-                    if (category === 'all' || card.getAttribute('data-category') === category) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
+// Fungsi untuk setup tombol order
+function setupOrderButtons() {
+    const orderButtons = document.querySelectorAll('.order-button:not(:disabled)');
+    
+    orderButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = parseInt(this.getAttribute('data-id'));
+            const product = this.getAttribute('data-product');
+            const price = parseInt(this.getAttribute('data-price'));
+            const qrisUrl = this.getAttribute('data-qris');
+            
+            openPaymentModal(product, price, qrisUrl);
         });
-    }
+    });
+}
 
-    // Fungsi untuk setup tombol order
-    function setupOrderButtons() {
-        const orderButtons = document.querySelectorAll('.order-button:not(:disabled)');
-        
-        orderButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const productId = parseInt(this.getAttribute('data-id'));
-                const product = this.getAttribute('data-product');
-                const price = parseInt(this.getAttribute('data-price'));
-                const qrisUrl = this.getAttribute('data-qris');
-                
-                openPaymentModal(product, price, qrisUrl);
-            });
-        });
+// Fungsi untuk login user
+function loginUser() {
+    const username = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
+    
+    if (!username || !password) {
+        showNotification('Harap isi username dan password', 'error');
+        return;
     }
-
-    // Fungsi untuk login user
-    function loginUser() {
-        const username = document.getElementById('login-username').value;
-        const password = document.getElementById('login-password').value;
-        
-        if (!username || !password) {
-            showNotification('Harap isi username dan password', 'error');
-            return;
-        }
-        
-        // Cari user berdasarkan username atau email
-        const user = users.find(u => (u.username === username || u.email === username) && u.password === password);
-        
-        if (user) {
-            currentUser = {
-                id: user.id,
-                name: user.name,
-                username: user.username,
-                isAdmin: user.isAdmin
-            };
-            
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            updateUIAfterLogin();
-            
-            hideModal(loginContainer);
-            showNotification('Login berhasil!', 'success');
-            
-            // Perbarui tampilan produk untuk mengaktifkan tombol order
-            renderProducts();
-        } else {
-            showNotification('Username atau password salah', 'error');
-        }
-        
-        // Reset form
-        document.getElementById('login-username').value = '';
-        document.getElementById('login-password').value = '';
-    }
-
-    // Fungsi untuk register user
-    function registerUser() {
-        // Validasi form
-        const name = document.getElementById('register-name').value;
-        const email = document.getElementById('register-email').value;
-        const username = document.getElementById('register-username').value;
-        const password = document.getElementById('register-password').value;
-        
-        if (!name || !email || !username || !password) {
-            showNotification('Harap isi semua field', 'error');
-            return;
-        }
-        
-        // Validasi email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            showNotification('Format email tidak valid', 'error');
-            return;
-        }
-        
-        // Cek apakah username atau email sudah terdaftar
-        const existingUser = users.find(u => u.username === username || u.email === email);
-        if (existingUser) {
-            showNotification('Username atau email sudah terdaftar', 'error');
-            return;
-        }
-        
-        // Tambahkan user baru
-        const newUserId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
-        const newUser = {
-            id: newUserId,
-            name: name,
-            username: username,
-            email: email,
-            password: password,
-            isAdmin: false
-        };
-        
-        users.push(newUser);
-        localStorage.setItem('users', JSON.stringify(users));
-        
-        // Auto login setelah register
+    
+    // Cari user berdasarkan username atau email
+    const user = users.find(u => (u.username === username || u.email === username) && u.password === password);
+    
+    if (user) {
         currentUser = {
-            id: newUser.id,
-            name: newUser.name,
-            username: newUser.username,
-            isAdmin: newUser.isAdmin
+            id: user.id,
+            name: user.name,
+            username: user.username,
+            isAdmin: user.isAdmin
         };
         
         localStorage.setItem('currentUser', JSON.stringify(currentUser));
         updateUIAfterLogin();
         
-        hideModal(registerContainer);
-        showNotification('Pendaftaran berhasil! Anda sudah login.', 'success');
+        showNotification('Login berhasil!', 'success');
         
-        // Perbarui tampilan produk untuk mengaktifkan tombol order
-        renderProducts();
-        
-        // Reset form
-        document.getElementById('register-name').value = '';
-        document.getElementById('register-email').value = '';
-        document.getElementById('register-username').value = '';
-        document.getElementById('register-password').value = '';
+        // Redirect ke halaman utama setelah login
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1000);
+    } else {
+        showNotification('Username atau password salah', 'error');
     }
+    
+    // Reset form
+    document.getElementById('login-username').value = '';
+    document.getElementById('login-password').value = '';
+}
 
-    // Fungsi untuk logout user
-    function logoutUser() {
-        currentUser = null;
-        localStorage.removeItem('currentUser');
-        updateUIAfterLogout();
-        hideDashboard();
-        renderProducts(); // Nonaktifkan tombol order
-        showNotification('Logout berhasil!', 'success');
+// Fungsi untuk register user
+function registerUser() {
+    // Validasi form
+    const name = document.getElementById('register-name').value;
+    const email = document.getElementById('register-email').value;
+    const username = document.getElementById('register-username').value;
+    const password = document.getElementById('register-password').value;
+    
+    if (!name || !email || !username || !password) {
+        showNotification('Harap isi semua field', 'error');
+        return;
     }
-
-    // Fungsi untuk update UI setelah login
-    function updateUIAfterLogin() {
-        if (currentUser) {
-            authButtons.style.display = 'none';
-            userNav.style.display = 'flex';
-        }
+    
+    // Validasi email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showNotification('Format email tidak valid', 'error');
+        return;
     }
+    
+    // Cek apakah username atau email sudah terdaftar
+    const existingUser = users.find(u => u.username === username || u.email === email);
+    if (existingUser) {
+        showNotification('Username atau email sudah terdaftar', 'error');
+        return;
+    }
+    
+    // Tambahkan user baru
+    const newUserId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
+    const newUser = {
+        id: newUserId,
+        name: name,
+        username: username,
+        email: email,
+        password: password,
+        isAdmin: false
+    };
+    
+    users.push(newUser);
+    localStorage.setItem('users', JSON.stringify(users));
+    
+    // Auto login setelah register
+    currentUser = {
+        id: newUser.id,
+        name: newUser.name,
+        username: newUser.username,
+        isAdmin: newUser.isAdmin
+    };
+    
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    updateUIAfterLogin();
+    
+    showNotification('Pendaftaran berhasil! Anda sudah login.', 'success');
+    
+    // Redirect ke halaman utama setelah register
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 1000);
+    
+    // Reset form
+    document.getElementById('register-name').value = '';
+    document.getElementById('register-email').value = '';
+    document.getElementById('register-username').value = '';
+    document.getElementById('register-password').value = '';
+}
 
-    // Fungsi untuk update UI setelah logout
-    function updateUIAfterLogout() {
+// Fungsi untuk logout user
+function logoutUser() {
+    currentUser = null;
+    localStorage.removeItem('currentUser');
+    updateUIAfterLogout();
+    showNotification('Logout berhasil!', 'success');
+    
+    // Redirect ke halaman utama setelah logout
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 1000);
+}
+
+// Fungsi untuk update UI setelah login
+function updateUIAfterLogin() {
+    const authButtons = document.getElementById('auth-buttons');
+    const userNav = document.getElementById('user-nav');
+    
+    if (currentUser && authButtons && userNav) {
+        authButtons.style.display = 'none';
+        userNav.style.display = 'flex';
+    }
+}
+
+// Fungsi untuk update UI setelah logout
+function updateUIAfterLogout() {
+    const authButtons = document.getElementById('auth-buttons');
+    const userNav = document.getElementById('user-nav');
+    
+    if (authButtons && userNav) {
         authButtons.style.display = 'flex';
         userNav.style.display = 'none';
     }
+}
 
-    // Fungsi untuk menampilkan dashboard
-    function showDashboard() {
-        mainContent.style.display = 'none';
-        dashboard.classList.add('show');
-        
-        // Update judul dashboard
+// Fungsi untuk merender dashboard
+function renderDashboard() {
+    if (!currentUser) {
+        // Redirect ke halaman login jika belum login
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    // Update judul dashboard
+    const dashboardTitle = document.getElementById('dashboard-title');
+    const dashboardContentTitle = document.getElementById('dashboard-content-title');
+    
+    if (dashboardTitle) {
         dashboardTitle.textContent = currentUser.isAdmin ? 'Dashboard Admin' : 'Dashboard Member';
+    }
+    
+    if (dashboardContentTitle) {
         dashboardContentTitle.textContent = currentUser.isAdmin ? 'Semua Pesanan' : 'Pesanan Saya';
-        
-        // Tampilkan section admin jika user adalah admin
+    }
+    
+    // Tampilkan section admin jika user adalah admin
+    const adminOrdersSection = document.getElementById('admin-orders-section');
+    const fileManagementSection = document.getElementById('file-management-section');
+    const userManagementSection = document.getElementById('user-management-section');
+    const productManagementSection = document.getElementById('product-management-section');
+    
+    if (adminOrdersSection) {
         adminOrdersSection.style.display = currentUser.isAdmin ? 'block' : 'none';
+    }
+    
+    if (fileManagementSection) {
         fileManagementSection.style.display = currentUser.isAdmin ? 'block' : 'none';
+    }
+    
+    if (userManagementSection) {
         userManagementSection.style.display = currentUser.isAdmin ? 'block' : 'none';
+    }
+    
+    if (productManagementSection) {
         productManagementSection.style.display = currentUser.isAdmin ? 'block' : 'none';
-        
-        // Render statistik
-        renderDashboardStats();
-        
-        // Render daftar pesanan
-        renderOrders();
-        
-        // Render daftar pesanan untuk admin
-        if (currentUser.isAdmin) {
-            renderAdminOrders();
-            renderUserTable();
-            renderProductTable();
-            renderProductSelect();
-            renderProductFiles();
-        }
     }
-
-    // Fungsi untuk menyembunyikan dashboard
-    function hideDashboard() {
-        dashboard.classList.remove('show');
-        mainContent.style.display = 'block';
+    
+    // Render statistik
+    renderDashboardStats();
+    
+    // Render daftar pesanan
+    renderOrders();
+    
+    // Render daftar pesanan untuk admin
+    if (currentUser.isAdmin) {
+        renderAdminOrders();
+        renderUserTable();
+        renderProductTable();
+        renderProductSelect();
+        renderProductFiles();
     }
+}
 
-    // Fungsi untuk merender statistik dashboard
-    function renderDashboardStats() {
-        let statsHtml = '';
+// Fungsi untuk merender statistik dashboard
+function renderDashboardStats() {
+    const dashboardStats = document.getElementById('dashboard-stats');
+    if (!dashboardStats) return;
+    
+    let statsHtml = '';
+    
+    if (currentUser.isAdmin) {
+        // Statistik untuk admin
+        const totalOrders = orders.length;
+        const pendingOrders = orders.filter(o => o.status === 'pending').length;
+        const completedOrders = orders.filter(o => o.status === 'completed').length;
+        const totalRevenue = orders.filter(o => o.status === 'completed')
+            .reduce((sum, order) => sum + order.price, 0);
         
-        if (currentUser.isAdmin) {
-            // Statistik untuk admin
-            const totalOrders = orders.length;
-            const pendingOrders = orders.filter(o => o.status === 'pending').length;
-            const completedOrders = orders.filter(o => o.status === 'completed').length;
-            const totalRevenue = orders.filter(o => o.status === 'completed')
-                .reduce((sum, order) => sum + order.price, 0);
-            
-            statsHtml = `
-                <div class="stat-card">
-                    <i class="fas fa-shopping-cart"></i>
-                    <h3>Total Pesanan</h3>
-                    <div class="stat-value">${totalOrders}</div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-clock"></i>
-                    <h3>Menunggu Verifikasi</h3>
-                    <div class="stat-value">${pendingOrders}</div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-check-circle"></i>
-                    <h3>Pesanan Selesai</h3>
-                    <div class="stat-value">${completedOrders}</div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-money-bill-wave"></i>
-                    <h3>Total Pendapatan</h3>
-                    <div class="stat-value">Rp ${totalRevenue.toLocaleString('id-ID')}</div>
-                </div>
-            `;
-        } else {
-            // Statistik untuk member
-            const userOrders = orders.filter(o => o.userId === currentUser.id);
-            const totalOrders = userOrders.length;
-            const pendingOrders = userOrders.filter(o => o.status === 'pending').length;
-            const completedOrders = userOrders.filter(o => o.status === 'completed').length;
-            
-            statsHtml = `
-                <div class="stat-card">
-                    <i class="fas fa-shopping-cart"></i>
-                    <h3>Total Pesanan</h3>
-                    <div class="stat-value">${totalOrders}</div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-clock"></i>
-                    <h3>Menunggu Verifikasi</h3>
-                    <div class="stat-value">${pendingOrders}</div>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-check-circle"></i>
-                    <h3>Pesanan Selesai</h3>
-                    <div class="stat-value">${completedOrders}</div>
-                </div>
-            `;
-        }
-        
-        dashboardStats.innerHTML = statsHtml;
-    }
-
-    // Fungsi untuk merender daftar pesanan
-    function renderOrders() {
-        let userOrders = currentUser.isAdmin ? orders : orders.filter(o => o.userId === currentUser.id);
-        
-        if (userOrders.length === 0) {
-            orderList.innerHTML = `
-                <div class="no-orders" style="text-align: center; padding: 2rem;">
-                    <i class="fas fa-box-open" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
-                    <p style="color: var(--text-secondary);">Tidak ada pesanan</p>
-                </div>
-            `;
-            return;
-        }
-        
-        // Urutkan pesanan berdasarkan tanggal (yang terbaru pertama)
-        userOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        
-        let ordersHtml = '';
-        userOrders.forEach(order => {
-            const orderDate = new Date(order.createdAt).toLocaleDateString('id-ID', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-            
-            const statusClass = `order-status status-${order.status}`;
-            let statusText = '';
-            
-            switch(order.status) {
-                case 'pending':
-                    statusText = 'Menunggu Verifikasi';
-                    break;
-                case 'completed':
-                    statusText = 'Selesai';
-                    break;
-                case 'cancelled':
-                    statusText = 'Dibatalkan';
-                    break;
-                default:
-                    statusText = order.status;
-            }
-            
-            // Tombol download hanya muncul jika status completed dan ada file
-            const downloadButton = order.status === 'completed' && productFiles[order.productId] && productFiles[order.productId].length > 0 ? 
-                `<button class="order-action action-download" data-order-id="${order.id}" data-product-id="${order.productId}" data-product-name="${order.productName}">
-                    <i class="fas fa-download"></i> Download
-                </button>` : '';
-            
-            ordersHtml += `
-                <li class="order-item">
-                    <div class="order-info">
-                        <h4><i class="fas fa-box"></i> ${order.productName}</h4>
-                        <p>Rp ${order.price.toLocaleString('id-ID')} • ${orderDate}</p>
-                        <p>Status: <span class="${statusClass}">${statusText}</span></p>
-                    </div>
-                    <div class="order-actions">
-                        ${downloadButton}
-                    </div>
-                </li>
-            `;
-        });
-        
-        orderList.innerHTML = ordersHtml;
-        
-        // Setup event listeners untuk tombol aksi
-        setupOrderActionButtons();
-    }
-
-    // Fungsi untuk merender daftar pesanan admin
-    function renderAdminOrders() {
-        // Ambil hanya pesanan yang menunggu verifikasi
-        const pendingOrders = orders.filter(o => o.status === 'pending');
-        
-        if (pendingOrders.length === 0) {
-            adminOrderList.innerHTML = `
-                <div class="no-orders" style="text-align: center; padding: 2rem;">
-                    <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
-                    <p style="color: var(--text-secondary);">Tidak ada pesanan yang menunggu verifikasi</p>
-                </div>
-            `;
-            return;
-        }
-        
-        // Urutkan pesanan berdasarkan tanggal (yang terbaru pertama)
-        pendingOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        
-        let ordersHtml = '';
-        pendingOrders.forEach(order => {
-            const orderDate = new Date(order.createdAt).toLocaleDateString('id-ID', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-            
-            ordersHtml += `
-                <li class="order-item">
-                    <div class="order-info">
-                        <h4><i class="fas fa-box"></i> ${order.productName}</h4>
-                        <p>Rp ${order.price.toLocaleString('id-ID')} • ${orderDate}</p>
-                        <p>Customer: ${order.customerName} (${order.customerWA})</p>
-                    </div>
-                    <div class="order-actions">
-                        <button class="order-action action-view" data-order-id="${order.id}">
-                            <i class="fas fa-eye"></i> Lihat Bukti
-                        </button>
-                    </div>
-                </li>
-            `;
-        });
-        
-        adminOrderList.innerHTML = ordersHtml;
-        
-        // Setup event listeners untuk tombol aksi
-        setupAdminOrderActionButtons();
-    }
-
-    // Fungsi untuk merender select produk
-    function renderProductSelect() {
-        let options = '<option value="">-- Pilih Produk --</option>';
-        
-        products.forEach(product => {
-            options += `<option value="${product.id}">${product.name}</option>`;
-        });
-        
-        fileProductSelect.innerHTML = options;
-    }
-
-    // Fungsi untuk merender daftar file produk
-    function renderProductFiles() {
-        if (!selectedProductId) {
-            productFileList.innerHTML = `
-                <div style="text-align: center; padding: 2rem;">
-                    <i class="fas fa-file" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
-                    <p style="color: var(--text-secondary);">Pilih produk untuk melihat file</p>
-                </div>
-            `;
-            return;
-        }
-        
-        const files = productFiles[selectedProductId] || [];
-        
-        if (files.length === 0) {
-            productFileList.innerHTML = `
-                <div style="text-align: center; padding: 2rem;">
-                    <i class="fas fa-file" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
-                    <p style="color: var(--text-secondary);">Tidak ada file untuk produk ini</p>
-                </div>
-            `;
-            return;
-        }
-        
-        let filesHtml = '';
-        files.forEach((file, index) => {
-            filesHtml += `
-                <li class="file-item">
-                    <div class="file-info">
-                        <i class="fas fa-file-archive file-icon"></i>
-                        <span class="file-name">${file.name}</span>
-                    </div>
-                    <div class="file-actions">
-                        <button class="order-action action-view" data-product-id="${selectedProductId}" data-file-index="${index}">
-                            <i class="fas fa-download"></i> Download
-                        </button>
-                        <button class="order-action action-reject" data-product-id="${selectedProductId}" data-file-index="${index}">
-                            <i class="fas fa-trash"></i> Hapus
-                        </button>
-                    </div>
-                </li>
-            `;
-        });
-        
-        productFileList.innerHTML = filesHtml;
-        
-        // Setup event listeners untuk tombol aksi file
-        setupFileActionButtons();
-    }
-
-    // Fungsi untuk merender tabel pengguna
-    function renderUserTable() {
-        if (users.length === 0) {
-            userTableContainer.innerHTML = `
-                <div style="text-align: center; padding: 2rem;">
-                    <i class="fas fa-users" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
-                    <p style="color: var(--text-secondary;">Tidak ada pengguna</p>
-                </div>
-            `;
-            return;
-        }
-        
-        let userTableHtml = `
-            <table class="user-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nama</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                    </tr>
-                </thead>
-                <tbody>
+        statsHtml = `
+            <div class="stat-card">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Total Pesanan</h3>
+                <div class="stat-value">${totalOrders}</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-clock"></i>
+                <h3>Menunggu Verifikasi</h3>
+                <div class="stat-value">${pendingOrders}</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-check-circle"></i>
+                <h3>Pesanan Selesai</h3>
+                <div class="stat-value">${completedOrders}</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-money-bill-wave"></i>
+                <h3>Total Pendapatan</h3>
+                <div class="stat-value">Rp ${totalRevenue.toLocaleString('id-ID')}</div>
+            </div>
         `;
+    } else {
+        // Statistik untuk member
+        const userOrders = orders.filter(o => o.userId === currentUser.id);
+        const totalOrders = userOrders.length;
+        const pendingOrders = userOrders.filter(o => o.status === 'pending').length;
+        const completedOrders = userOrders.filter(o => o.status === 'completed').length;
         
-        users.forEach(user => {
-            userTableHtml += `
-                <tr>
-                    <td>${user.id}</td>
-                    <td>${user.name}</td>
-                    <td>${user.username}</td>
-                    <td>${user.email}</td>
-                    <td><span class="user-role ${user.isAdmin ? 'role-admin' : 'role-user'}">${user.isAdmin ? 'Admin' : 'User'}</span></td>
-                </tr>
-            `;
+        statsHtml = `
+            <div class="stat-card">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Total Pesanan</h3>
+                <div class="stat-value">${totalOrders}</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-clock"></i>
+                <h3>Menunggu Verifikasi</h3>
+                <div class="stat-value">${pendingOrders}</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-check-circle"></i>
+                <h3>Pesanan Selesai</h3>
+                <div class="stat-value">${completedOrders}</div>
+            </div>
+        `;
+    }
+    
+    dashboardStats.innerHTML = statsHtml;
+}
+
+// Fungsi untuk merender daftar pesanan
+function renderOrders() {
+    const orderList = document.getElementById('order-list');
+    if (!orderList) return;
+    
+    let userOrders = currentUser.isAdmin ? orders : orders.filter(o => o.userId === currentUser.id);
+    
+    if (userOrders.length === 0) {
+        orderList.innerHTML = `
+            <div class="no-orders" style="text-align: center; padding: 2rem;">
+                <i class="fas fa-box-open" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+                <p style="color: var(--text-secondary);">Tidak ada pesanan</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Urutkan pesanan berdasarkan tanggal (yang terbaru pertama)
+    userOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    
+    let ordersHtml = '';
+    userOrders.forEach(order => {
+        const orderDate = new Date(order.createdAt).toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
         });
         
+        const statusClass = `order-status status-${order.status}`;
+        let statusText = '';
+        
+        switch(order.status) {
+            case 'pending':
+                statusText = 'Menunggu Verifikasi';
+                break;
+            case 'completed':
+                statusText = 'Selesai';
+                break;
+            case 'cancelled':
+                statusText = 'Dibatalkan';
+                break;
+            default:
+                statusText = order.status;
+        }
+        
+        // Tombol download hanya muncul jika status completed dan ada file
+        const downloadButton = order.status === 'completed' && productFiles[order.productId] && productFiles[order.productId].length > 0 ? 
+            `<button class="order-action action-download" data-order-id="${order.id}" data-product-id="${order.productId}" data-product-name="${order.productName}">
+                <i class="fas fa-download"></i> Download
+            </button>` : '';
+        
+        ordersHtml += `
+            <li class="order-item">
+                <div class="order-info">
+                    <h4><i class="fas fa-box"></i> ${order.productName}</h4>
+                    <p>Rp ${order.price.toLocaleString('id-ID')} • ${orderDate}</p>
+                    <p>Status: <span class="${statusClass}">${statusText}</span></p>
+                </div>
+                <div class="order-actions">
+                    ${downloadButton}
+                </div>
+            </li>
+        `;
+    });
+    
+    orderList.innerHTML = ordersHtml;
+    
+    // Setup event listeners untuk tombol aksi
+    setupOrderActionButtons();
+}
+
+// Fungsi untuk merender daftar pesanan admin
+function renderAdminOrders() {
+    const adminOrderList = document.getElementById('admin-order-list');
+    if (!adminOrderList) return;
+    
+    // Ambil hanya pesanan yang menunggu verifikasi
+    const pendingOrders = orders.filter(o => o.status === 'pending');
+    
+    if (pendingOrders.length === 0) {
+        adminOrderList.innerHTML = `
+            <div class="no-orders" style="text-align: center; padding: 2rem;">
+                <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+                <p style="color: var(--text-secondary);">Tidak ada pesanan yang menunggu verifikasi</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Urutkan pesanan berdasarkan tanggal (yang terbaru pertama)
+    pendingOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    
+    let ordersHtml = '';
+    pendingOrders.forEach(order => {
+        const orderDate = new Date(order.createdAt).toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        
+        ordersHtml += `
+            <li class="order-item">
+                <div class="order-info">
+                    <h4><i class="fas fa-box"></i> ${order.productName}</h4>
+                    <p>Rp ${order.price.toLocaleString('id-ID')} • ${orderDate}</p>
+                    <p>Customer: ${order.customerName} (${order.customerWA})</p>
+                </div>
+                <div class="order-actions">
+                    <button class="order-action action-view" data-order-id="${order.id}">
+                        <i class="fas fa-eye"></i> Lihat Bukti
+                    </button>
+                </div>
+            </li>
+        `;
+    });
+    
+    adminOrderList.innerHTML = ordersHtml;
+    
+    // Setup event listeners untuk tombol aksi
+    setupAdminOrderActionButtons();
+}
+
+// Fungsi untuk merender select produk
+function renderProductSelect() {
+    const fileProductSelect = document.getElementById('file-product');
+    if (!fileProductSelect) return;
+    
+    let options = '<option value="">-- Pilih Produk --</option>';
+    
+    products.forEach(product => {
+        options += `<option value="${product.id}">${product.name}</option>`;
+    });
+    
+    fileProductSelect.innerHTML = options;
+}
+
+// Fungsi untuk merender daftar file produk
+function renderProductFiles() {
+    const productFileList = document.getElementById('product-file-list');
+    if (!productFileList) return;
+    
+    if (!selectedProductId) {
+        productFileList.innerHTML = `
+            <div style="text-align: center; padding: 2rem;">
+                <i class="fas fa-file" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+                <p style="color: var(--text-secondary);">Pilih produk untuk melihat file</p>
+            </div>
+        `;
+        return;
+    }
+    
+    const files = productFiles[selectedProductId] || [];
+    
+    if (files.length === 0) {
+        productFileList.innerHTML = `
+            <div style="text-align: center; padding: 2rem;">
+                <i class="fas fa-file" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+                <p style="color: var(--text-secondary);">Tidak ada file untuk produk ini</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let filesHtml = '';
+    files.forEach((file, index) => {
+        filesHtml += `
+            <li class="file-item">
+                <div class="file-info">
+                    <i class="fas fa-file-archive file-icon"></i>
+                    <span class="file-name">${file.name}</span>
+                </div>
+                <div class="file-actions">
+                    <button class="order-action action-view" data-product-id="${selectedProductId}" data-file-index="${index}">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                    <button class="order-action action-reject" data-product-id="${selectedProductId}" data-file-index="${index}">
+                        <i class="fas fa-trash"></i> Hapus
+                    </button>
+                </div>
+            </li>
+        `;
+    });
+    
+    productFileList.innerHTML = filesHtml;
+    
+    // Setup event listeners untuk tombol aksi file
+    setupFileActionButtons();
+}
+
+// Fungsi untuk merender tabel pengguna
+function renderUserTable() {
+    const userTableContainer = document.getElementById('user-table-container');
+    if (!userTableContainer) return;
+    
+    if (users.length === 0) {
+        userTableContainer.innerHTML = `
+            <div style="text-align: center; padding: 2rem;">
+                <i class="fas fa-users" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+                <p style="color: var(--text-secondary;">Tidak ada pengguna</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let userTableHtml = `
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    
+    users.forEach(user => {
         userTableHtml += `
-                </tbody>
-            </table>
+            <tr>
+                <td>${user.id}</td>
+                <td>${user.name}</td>
+                <td>${user.username}</td>
+                <td>${user.email}</td>
+                <td><span class="user-role ${user.isAdmin ? 'role-admin' : 'role-user'}">${user.isAdmin ? 'Admin' : 'User'}</span></td>
+            </tr>
         `;
-        
-        userTableContainer.innerHTML = userTableHtml;
-    }
-
-    // Fungsi untuk merender tabel produk
-    function renderProductTable() {
-        if (products.length === 0) {
-            productTableContainer.innerHTML = `
-                <div style="text-align: center; padding: 2rem;">
-                    <i class="fas fa-box-open" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
-                    <p style="color: var(--text-secondary);">Tidak ada produk</p>
-                </div>
-            `;
-            return;
-        }
-        
-        let productTableHtml = `
-            <table class="user-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nama</th>
-                        <th>Harga</th>
-                        <th>Kategori</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-        `;
-        
-        products.forEach(product => {
-            productTableHtml += `
-                <tr>
-                    <td>${product.id}</td>
-                    <td>${product.name}</td>
-                    <td>Rp ${product.price.toLocaleString('id-ID')}</td>
-                    <td>${product.category}</td>
-                    <td>
-                        <button class="order-action action-view" data-product-id="${product.id}">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <button class="order-action action-reject" data-product-id="${product.id}">
-                            <i class="fas fa-trash"></i> Hapus
-                        </button>
-                    </td>
-                </tr>
-            `;
-        });
-        
-        productTableHtml += `
+    });
+    
+    userTableHtml += `
             </tbody>
         </table>
+    `;
+    
+    userTableContainer.innerHTML = userTableHtml;
+}
+
+// Fungsi untuk merender tabel produk
+function renderProductTable() {
+    const productTableContainer = document.getElementById('product-table-container');
+    if (!productTableContainer) return;
+    
+    if (products.length === 0) {
+        productTableContainer.innerHTML = `
+            <div style="text-align: center; padding: 2rem;">
+                <i class="fas fa-box-open" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+                <p style="color: var(--text-secondary);">Tidak ada produk</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let productTableHtml = `
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th>Harga</th>
+                    <th>Kategori</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    
+    products.forEach(product => {
+        productTableHtml += `
+            <tr>
+                <td>${product.id}</td>
+                <td>${product.name}</td>
+                <td>Rp ${product.price.toLocaleString('id-ID')}</td>
+                <td>${product.category}</td>
+                <td>
+                    <button class="order-action action-view" data-product-id="${product.id}">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button class="order-action action-reject" data-product-id="${product.id}">
+                        <i class="fas fa-trash"></i> Hapus
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+    
+    productTableHtml += `
+        </tbody>
+    </table>
     `;
     
     productTableContainer.innerHTML = productTableHtml;
@@ -1097,7 +1055,7 @@ function viewOrderProof(orderId) {
         `;
         
         // Tampilkan modal
-        showModal(proofModal);
+        showModal(document.getElementById('proof-modal'));
     } else {
         showNotification('Bukti pembayaran tidak ditemukan', 'error');
     }
@@ -1118,7 +1076,7 @@ function approvePayment() {
             renderDashboardStats();
             
             showNotification('Pembayaran berhasil disetujui!', 'success');
-            hideModal(proofModal);
+            hideModal(document.getElementById('proof-modal'));
         }
     }
 }
@@ -1138,7 +1096,7 @@ function rejectPayment() {
             renderDashboardStats();
             
             showNotification('Pembayaran ditolak!', 'success');
-            hideModal(proofModal);
+            hideModal(document.getElementById('proof-modal'));
         }
     }
 }
@@ -1157,7 +1115,7 @@ function editProduct(productId) {
         document.getElementById('product-qris').value = product.qris;
         document.getElementById('product-highlight').value = product.highlight || '';
         
-        showModal(productModal);
+        showModal(document.getElementById('product-modal'));
     }
 }
 
@@ -1193,16 +1151,24 @@ function uploadProductFile() {
     }
     
     // Tampilkan progress bar
-    uploadProgress.style.display = 'block';
-    progressFill.style.width = '0%';
-    progressText.textContent = '0%';
+    const uploadProgress = document.getElementById('upload-progress');
+    const progressFill = document.getElementById('progress-fill');
+    const progressText = document.getElementById('progress-text');
+    
+    if (uploadProgress && progressFill && progressText) {
+        uploadProgress.style.display = 'block';
+        progressFill.style.width = '0%';
+        progressText.textContent = '0%';
+    }
     
     // Simulasi proses upload
     let progress = 0;
     const interval = setInterval(function() {
         progress += 5;
-        progressFill.style.width = `${progress}%`;
-        progressText.textContent = `${progress}%`;
+        if (progressFill && progressText) {
+            progressFill.style.width = `${progress}%`;
+            progressText.textContent = `${progress}%`;
+        }
         
         if (progress >= 100) {
             clearInterval(interval);
@@ -1219,19 +1185,27 @@ function uploadProductFile() {
                 name: fileName,
                 size: fileSize,
                 uploadedAt: new Date().toISOString(),
-                url: `https://produk-ramzzhost.vercel.app/files/${fileName}`
+                url: `https://toko-ramzz-website.vercel.app/files/${fileName}`
             });
             
             localStorage.setItem('productFiles', JSON.stringify(productFiles));
             
             // Reset form
-            document.getElementById('product-file-upload').value = '';
-            document.getElementById('uploaded-product-file-container').style.display = 'none';
+            const productFileUpload = document.getElementById('product-file-upload');
+            const uploadedProductFileContainer = document.getElementById('uploaded-product-file-container');
+            
+            if (productFileUpload && uploadedProductFileContainer) {
+                productFileUpload.value = '';
+                uploadedProductFileContainer.style.display = 'none';
+            }
+            
             selectedFile = null;
             
             // Sembunyikan progress bar
             setTimeout(() => {
-                uploadProgress.style.display = 'none';
+                if (uploadProgress) {
+                    uploadProgress.style.display = 'none';
+                }
             }, 1000);
             
             // Perbarui daftar file
@@ -1301,7 +1275,7 @@ function showDownloadModal(productId, productName) {
         });
     });
     
-    showModal(downloadModal);
+    showModal(document.getElementById('download-modal'));
 }
 
 // Fungsi untuk mendownload file produk
@@ -1387,7 +1361,7 @@ function saveProduct() {
     }
     
     localStorage.setItem('products', JSON.stringify(products));
-    hideModal(productModal);
+    hideModal(document.getElementById('product-modal'));
     resetProductForm();
     
     // Perbarui tampilan
@@ -1453,12 +1427,12 @@ function openPaymentModal(product, price, qrisUrl) {
     document.getElementById('proof-preview').style.display = 'none';
     paymentProofFile = null;
     
-    showModal(modal);
+    showModal(document.getElementById('payment-modal'));
 }
 
 // Fungsi untuk menutup modal pembayaran
 function closePaymentModal() {
-    hideModal(modal);
+    hideModal(document.getElementById('payment-modal'));
     currentOrder = null;
 }
 
@@ -1528,6 +1502,8 @@ function formatRupiah(angka) {
 
 // Fungsi untuk menampilkan modal dengan animasi
 function showModal(modalElement) {
+    if (!modalElement) return;
+    
     modalElement.style.display = 'flex';
     setTimeout(() => {
         modalElement.classList.add('show');
@@ -1536,6 +1512,8 @@ function showModal(modalElement) {
 
 // Fungsi untuk menyembunyikan modal dengan animasi
 function hideModal(modalElement) {
+    if (!modalElement) return;
+    
     modalElement.classList.remove('show');
     setTimeout(() => {
         modalElement.style.display = 'none';
@@ -1544,6 +1522,9 @@ function hideModal(modalElement) {
 
 // Fungsi untuk menampilkan notifikasi
 function showNotification(message, type = 'success') {
+    const notification = document.getElementById('notification');
+    if (!notification) return;
+    
     notification.textContent = message;
     notification.className = `notification ${type}`;
     notification.classList.add('show');
@@ -1567,7 +1548,7 @@ function toggleTheme() {
 
 // Fungsi untuk menampilkan modal login
 function showLoginModal() {
-    showModal(loginContainer);
+    window.location.href = 'login.html';
 }
 
 // Animasi scroll
