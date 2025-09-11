@@ -1,12 +1,12 @@
-// Data produk
-let products = JSON.parse(localStorage.getItem('products')) || [
+// 
+        let products = JSON.parse(localStorage.getItem('products')) || [
     {
         id: 1,
         name: "SCRIPT CREATE PANEL JASTEB",
-        category: "scriptbot",
+        category: "script",
         price: 10000,
         qris: "https://files.catbox.moe/jibvsz.jpg",
-        features: ["Bisa Create sepuasnya", "Bisa Open Jasteb", "Open Marga", "Bisa Open Founder" "Bisa Open Team Ress", "Bisa di Jual Kembali","Dll"],
+        features: ["Bisa Create sepuasnya", "Bisa Open Jasteb", "Open Marga", "Bisa Open Founder", "Bisa Open Team Ress", "Bisa di Jual Kembali", "Dll"],
         highlight: "",
         files: [
             {
@@ -35,7 +35,7 @@ let products = JSON.parse(localStorage.getItem('products')) || [
     {
         id: 3,
         name: "SCRIPT CREATE PANEL WEBP 3 TAMPILAN",
-        category: "scriptbot",
+        category: "script",
         price: 28000,
         qris: "https://files.catbox.moe/jibvsz.jpg",
         features: ["Bisa Create Panel 3 Tampilan", "bisa create sepuasnya", "tampilan Atur Ress", "Tampilan Atur Menit", "Bisa Open Marga", "Dll"],
@@ -47,11 +47,11 @@ let products = JSON.parse(localStorage.getItem('products')) || [
                 type: "application/zip"
             }
         ]
-    }
+    },
     {
         id: 3,
         name: "SCRIPT ADDCURL",
-        category: "scriptbot",
+        category: "script",
         price: 10000,
         qris: "https://files.catbox.moe/jibvsz.jpg",
         features: ["Script ini khusus konek ke Webp", "Bisa Jual Kembali", "Bisa Open Jasteb", "Bisa Jual Ress", "Bisa Open Marga", "Dll"],
@@ -63,11 +63,11 @@ let products = JSON.parse(localStorage.getItem('products')) || [
                 type: "application/zip"
             }
         ]
-    }
+    },
     {
         id: 3,
         name: "SCRIPT ADDCURL HAPUS APII",
-        category: "scriptbot",
+        category: "script",
         price: 20000,
         qris: "https://files.catbox.moe/jibvsz.jpg",
         features: ["Script ini sama seperti di atas", "Jika kalian Tidak Senang Sama Buyer panel kalian bisa di hapus api", "Bisa Open Jasteb", "Bisa Jual Ress", "Bisa Open Marga", "Dll"],
@@ -79,7 +79,7 @@ let products = JSON.parse(localStorage.getItem('products')) || [
                 type: "application/zip"
             }
         ]
-    }
+    },
     {
         id: 3,
         name: "SCRIPT ADDCURLXAUTORESS",
