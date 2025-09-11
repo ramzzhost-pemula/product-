@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan Digital Premium - Pembayaran QRIS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-shopping-cart"></i>
+                <span>DigitalShop</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Beranda
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#products" class="nav-link">
+                        <i class="fas fa-box"></i> Produk
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">
+                        <i class="fas fa-phone"></i> Kontak
+                    </a>
+                </li>
+                
+                <!-- Tombol Login/Daftar di menu navigasi -->
+                <div class="auth-buttons" id="auth-buttons">
+                    <li class="nav-item">
+                        <a href="login.html" class="nav-link">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="register.html" class="nav-link">
+                            <i class="fas fa-user-plus"></i> Daftar
+                        </a>
+                    </li>
+                </div>
+                
+                <!-- Tombol Dashboard dan Logout di menu navigasi -->
+                <div class="user-nav" id="user-nav" style="display: none;">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" id="nav-logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </div>
+            </ul>
+            
+            <div class="header-controls">
+                <div class="theme-toggle" id="theme-toggle">
+                    <div class="theme-toggle-handle"></div>
+                </div>
+                
+                <button class="hamburger" id="hamburger">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Halaman Utama -->
+        <section class="hero">
+            <h1>Layanan Digital Premium</h1>
+            <p>Solusi terbaik untuk kebutuhan digital Anda dengan kualitas premium dan harga terjangkau. Dapatkan berbagai layanan unggulan untuk mendukung aktivitas digital Anda.</p>
+            
+            <a href="https://wa.me/6283862592489" class="cta-button">
+                <i class="fab fa-whatsapp"></i> Pesan Sekarang
+            </a>
+            
+            <div class="features">
+                <div class="feature-card floating">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Proses Cepat</h3>
+                </div>
+                <div class="feature-card floating" style="animation-delay: 0.2s">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Terpercaya</h3>
+                </div>
+                <div class="feature-card floating" style="animation-delay: 0.4s">
+                    <i class="fas fa-headset"></i>
+                    <h3>Support 24/7</h3>
+                </div>
+                <div class="feature-card floating" style="animation-delay: 0.6s">
+                    <i class="fas fa-tag"></i>
+                    <h3>Harga Terbaik</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Cari produk...">
+                <button id="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <section class="products" id="products">
+            <h2 class="section-title">Produk Kami</h2>
+            
+            <!-- Menu Kategori -->
+            <div class="categories">
+                <button class="category-btn active" data-category="all">
+                    <i class="fas fa-list"></i> SEMUA
+                </button>
+                <button class="category-btn" data-category="script">
+                    <i class="fas fa-user-shield"></i> Script Jasteb
+                </button>
+                <button class="category-btn" data-category="scriptbot">
+                    <i class="fas fa-code"></i> Script Bot
+                </button>
+            </div>
+            
+            <div class="product-grid" id="product-grid">
+                <!-- Product cards will be generated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Modal Pembayaran QRIS yang disederhanakan -->
+        <div class="modal" id="payment-modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h3 class="modal-title" id="modal-product-name">Produk</h3>
+                <div class="modal-price" id="modal-product-price">Rp 0</div>
+                
+                <div id="qris-section">
+                    <img id="qris-image" src="https://files.catbox.moe/jibvsz.jpg" alt="QRIS Payment" class="qris-image">
+                    <p class="modal-instruction">Scan QRIS di atas untuk melakukan pembayaran</p>
+                </div>
+                
+                <div class="customer-form" id="customer-form">
+                    <div class="form-group">
+                        <label for="customer-name">Nama Lengkap</label>
+                        <input type="text" id="customer-name" placeholder="Masukkan nama lengkap">
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-wa">Nomor WhatsApp</label>
+                        <input type="tel" id="customer-wa" placeholder="Contoh: 628123456789">
+                    </div>
+                    
+                    <!-- Bagian Upload Bukti Pembayaran -->
+                    <div class="proof-section">
+                        <h4>Upload Bukti Pembayaran</h4>
+                        <div class="proof-upload">
+                            <label for="payment-proof" class="file-upload-label">
+                                <i class="fas fa-camera"></i>
+                                <span>Unggah Screenshot Bukti Pembayaran</span>
+                            </label>
+                            <input type="file" id="payment-proof" class="file-upload-input" accept="image/*">
+                            <img id="proof-preview" class="proof-preview" alt="Preview Bukti Pembayaran">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button class="modal-button primary-button" id="confirm-payment">
+                        <i class="fas fa-check-circle"></i> Konfirmasi Pembayaran
+                    </button>
+                    <button class="modal-button secondary-button" id="cancel-payment">
+                        <i class="fas fa-times"></i> Batalkan
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <section class="contact" id="contact">
+            <h2>Butuh Bantuan?</h2>
+            <p>Tim kami siap membantu Anda 24 jam melalui WhatsApp. Jangan ragu untuk menghubungi kami untuk pertanyaan atau pemesanan.</p>
+            <a href="https://wa.me/6283862592489" class="cta-button">
+                <i class="fab fa-whatsapp"></i> Hubungi Kami
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="logo">
+            <i class="fas fa-code"></i>
+            <span>DigitalShop</span>
+        </div>
+        
+        <p>Solusi digital terbaik untuk kebutuhan Anda</p>
+        
+        <div class="social-links">
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+            <a href="#"><i class="fas fa-envelope"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2023 DigitalShop. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

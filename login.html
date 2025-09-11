@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - DigitalShop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-shopping-cart"></i>
+                <span>DigitalShop</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i> Beranda
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#products" class="nav-link">
+                        <i class="fas fa-box"></i> Produk
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#contact" class="nav-link">
+                        <i class="fas fa-phone"></i> Kontak
+                    </a>
+                </li>
+                
+                <!-- Tombol Login/Daftar di menu navigasi -->
+                <div class="auth-buttons">
+                    <li class="nav-item">
+                        <a href="login.html" class="nav-link">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="register.html" class="nav-link">
+                            <i class="fas fa-user-plus"></i> Daftar
+                        </a>
+                    </li>
+                </div>
+            </ul>
+            
+            <div class="header-controls">
+                <div class="theme-toggle" id="theme-toggle">
+                    <div class="theme-toggle-handle"></div>
+                </div>
+                
+                <button class="hamburger" id="hamburger">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="auth-main">
+        <div class="auth-container">
+            <div class="auth-form">
+                <h2 class="auth-title">Login</h2>
+                <input type="text" id="login-username" class="auth-input" placeholder="Username atau Email">
+                <input type="password" id="login-password" class="auth-input" placeholder="Password">
+                <button class="auth-button" id="login-submit-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <p class="auth-switch">
+                    Belum punya akun? <a href="register.html" class="auth-link">Daftar di sini</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="logo">
+            <i class="fas fa-code"></i>
+            <span>DigitalShop</span>
+        </div>
+        
+        <p>Solusi digital terbaik untuk kebutuhan Anda</p>
+        
+        <div class="social-links">
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+            <a href="#"><i class="fas fa-envelope"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2023 DigitalShop. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
